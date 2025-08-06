@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>秒針付き時計</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="clock-container">
+        <div class="clock">
+            <div class="clock-face">
+                <!-- 時間の目盛り -->
+                <div class="hour-marks">
+                    <div class="hour-mark" style="transform: rotate(0deg)"></div>
+                    <div class="hour-mark" style="transform: rotate(30deg)"></div>
+                    <div class="hour-mark" style="transform: rotate(60deg)"></div>
+                    <div class="hour-mark" style="transform: rotate(90deg)"></div>
+                    <div class="hour-mark" style="transform: rotate(120deg)"></div>
+                    <div class="hour-mark" style="transform: rotate(150deg)"></div>
+                    <div class="hour-mark" style="transform: rotate(180deg)"></div>
+                    <div class="hour-mark" style="transform: rotate(210deg)"></div>
+                    <div class="hour-mark" style="transform: rotate(240deg)"></div>
+                    <div class="hour-mark" style="transform: rotate(270deg)"></div>
+                    <div class="hour-mark" style="transform: rotate(300deg)"></div>
+                    <div class="hour-mark" style="transform: rotate(330deg)"></div>
+                </div>
+                
+                <!-- 針 -->
+                <div class="hand hour-hand" id="hour-hand"></div>
+                <div class="hand minute-hand" id="minute-hand"></div>
+                <div class="hand second-hand" id="second-hand"></div>
+                
+                <!-- 中心点 -->
+                <div class="center-dot"></div>
+            </div>
+        </div>
+        
+        <!-- デジタル時計表示 -->
+        <div class="digital-clock" id="digital-clock"></div>
+    </div>
+    
+    <script src="script.js"></script>
+</body>
+</html>

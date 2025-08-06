@@ -1,0 +1,129 @@
+body {
+    margin: 0;
+    padding: 20px;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    font-family: 'Arial', sans-serif;
+    min-width: 300px;
+    min-height: 350px;
+}
+
+.clock-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+}
+
+.clock {
+    width: 250px;
+    height: 250px;
+    border-radius: 50%;
+    background: white;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+    position: relative;
+    border: 8px solid #333;
+}
+
+.clock-face {
+    width: 100%;
+    height: 100%;
+    position: relative;
+}
+
+.hour-marks {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+}
+
+.hour-mark {
+    position: absolute;
+    width: 4px;
+    height: 20px;
+    background: #333;
+    top: 10px;
+    left: 50%;
+    transform-origin: 2px 115px;
+    margin-left: -2px;
+}
+
+.hour-mark:nth-child(3n) {
+    width: 6px;
+    height: 30px;
+    background: #000;
+    margin-left: -3px;
+    transform-origin: 3px 110px;
+}
+
+.hand {
+    position: absolute;
+    background: #333;
+    transform-origin: bottom center;
+    border-radius: 10px;
+}
+
+.hour-hand {
+    width: 6px;
+    height: 60px;
+    left: 50%;
+    bottom: 50%;
+    margin-left: -3px;
+    background: #000;
+    z-index: 3;
+}
+
+.minute-hand {
+    width: 4px;
+    height: 80px;
+    left: 50%;
+    bottom: 50%;
+    margin-left: -2px;
+    background: #333;
+    z-index: 2;
+}
+
+.second-hand {
+    width: 2px;
+    height: 90px;
+    left: 50%;
+    bottom: 50%;
+    margin-left: -1px;
+    background: #e74c3c;
+    z-index: 4;
+    transition: transform 0.1s ease-out;
+}
+
+.center-dot {
+    position: absolute;
+    width: 12px;
+    height: 12px;
+    background: #333;
+    border-radius: 50%;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 5;
+    border: 2px solid white;
+}
+
+.digital-clock {
+    background: rgba(255, 255, 255, 0.9);
+    padding: 15px 25px;
+    border-radius: 10px;
+    font-size: 24px;
+    font-weight: bold;
+    color: #333;
+    text-align: center;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+    min-width: 200px;
+}
+
+/* アニメーション効果 */
+@keyframes tick {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(6deg); }
+}
+
+.second-hand.tick {
+    animation: tick 0.1s ease-out;
+}

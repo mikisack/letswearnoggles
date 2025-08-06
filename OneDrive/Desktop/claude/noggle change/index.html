@@ -1,0 +1,839 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Let's wear noggles</title>
+    <style>
+        body {
+            font-family: 'Comic Sans MS', cursive, Arial, sans-serif;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 10px;
+            background: linear-gradient(135deg, #FFD700, #FF6B6B, #4ECDC4, #45B7D1, #96CEB4);
+            background-size: 400% 400%;
+            animation: gradientShift 8s ease infinite;
+            min-height: 100vh;
+        }
+        
+        @keyframes gradientShift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+        
+        @media (max-width: 768px) {
+            body {
+                padding: 5px;
+            }
+        }
+        
+        .container {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 25px;
+            padding: 30px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.2), 0 5px 15px rgba(0,0,0,0.1);
+            backdrop-filter: blur(10px);
+            border: 3px solid rgba(255, 255, 255, 0.3);
+        }
+        
+        h1 {
+            text-align: center;
+            background: linear-gradient(45deg, #FF6B6B, #4ECDC4, #45B7D1, #FFD700);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-size: 3rem;
+            font-weight: bold;
+            margin-bottom: 30px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+            animation: titleBounce 2s ease-in-out infinite alternate;
+        }
+        
+        @keyframes titleBounce {
+            0% { transform: translateY(0px); }
+            100% { transform: translateY(-5px); }
+        }
+        
+        .upload-section {
+            margin-bottom: 30px;
+            padding: 25px;
+            border: 3px dashed #FF6B6B;
+            border-radius: 20px;
+            text-align: center;
+            background: linear-gradient(45deg, rgba(255, 107, 107, 0.1), rgba(78, 205, 196, 0.1));
+            transition: all 0.3s ease;
+        }
+        
+        .upload-section:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(255, 107, 107, 0.3);
+        }
+        
+        .upload-section.dragover {
+            border-color: #4ECDC4;
+            background: linear-gradient(45deg, rgba(78, 205, 196, 0.2), rgba(255, 107, 107, 0.2));
+            transform: scale(1.02);
+        }
+        
+        input[type="file"] {
+            margin: 10px 0;
+        }
+        
+        .preview-section {
+            display: flex;
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        
+        .preview-container {
+            flex: 1;
+            text-align: center;
+        }
+        
+        .preview-container h3 {
+            margin-bottom: 15px;
+            color: #555;
+        }
+        
+        .image-preview {
+            width: 100%;
+            max-width: 300px;
+            max-height: 300px;
+            object-fit: contain;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+        
+        .canvas-container {
+            text-align: center;
+            margin: 30px 0;
+        }
+        
+        #canvas {
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            max-width: 100%;
+        }
+        
+        .controls {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        
+        @media (max-width: 768px) {
+            .controls {
+                grid-template-columns: 1fr;
+                gap: 15px;
+            }
+            
+            .preview-section {
+                flex-direction: column;
+                gap: 15px;
+            }
+            
+            .buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .buttons button {
+                width: 100%;
+                max-width: 300px;
+            }
+        }
+        
+        @media (min-width: 769px) {
+            .buttons {
+                flex-direction: row;
+                justify-content: center;
+                gap: 15px;
+            }
+            
+            .buttons button {
+                width: auto;
+                min-width: 120px;
+            }
+        }
+        
+        .control-group {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            padding: 15px;
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.8), rgba(255, 255, 255, 0.6));
+            border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            transition: transform 0.2s ease;
+        }
+        
+        .control-group:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0,0,0,0.15);
+        }
+        
+        label {
+            font-weight: bold;
+            background: linear-gradient(45deg, #FF6B6B, #4ECDC4);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        input[type="range"] {
+            width: 100%;
+            cursor: pointer;
+            -webkit-appearance: none;
+            height: 8px;
+            border-radius: 10px;
+            background: linear-gradient(90deg, #FF6B6B, #4ECDC4, #45B7D1, #96CEB4);
+            outline: none;
+        }
+        
+        input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: linear-gradient(45deg, #FFD700, #FF6B6B);
+            cursor: pointer;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+        }
+        
+        input[type="range"]::-moz-range-thumb {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: linear-gradient(45deg, #FFD700, #FF6B6B);
+            cursor: pointer;
+            border: none;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+        }
+        
+        input[type="number"] {
+            padding: 5px;
+            border: 1px solid #ddd;
+            border-radius: 3px;
+        }
+        
+        input[type="color"] {
+            width: 50px;
+            height: 35px;
+            border: 1px solid #ddd;
+            border-radius: 3px;
+            cursor: pointer;
+        }
+        
+        input[type="checkbox"] {
+            cursor: pointer;
+        }
+        
+        .buttons {
+            text-align: center;
+            gap: 15px;
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+        
+        button {
+            padding: 12px 24px;
+            font-size: 16px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            user-select: none;
+        }
+        
+        .primary-btn {
+            background: linear-gradient(45deg, #FF6B6B, #4ECDC4);
+            color: white;
+            border: none;
+            font-weight: bold;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.2);
+            box-shadow: 0 4px 15px rgba(255, 107, 107, 0.4);
+        }
+        
+        .primary-btn:hover {
+            background: linear-gradient(45deg, #FF5252, #26C6DA);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(255, 107, 107, 0.6);
+        }
+        
+        .secondary-btn {
+            background: linear-gradient(45deg, #96CEB4, #FECA57);
+            color: white;
+            border: none;
+            font-weight: bold;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.2);
+            box-shadow: 0 4px 15px rgba(150, 206, 180, 0.4);
+        }
+        
+        .secondary-btn:hover {
+            background: linear-gradient(45deg, #74B9A0, #FD9644);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(150, 206, 180, 0.6);
+        }
+        
+        .success-btn {
+            background: linear-gradient(45deg, #45B7D1, #96CEB4);
+            color: white;
+            border: none;
+            font-weight: bold;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.2);
+            box-shadow: 0 4px 15px rgba(69, 183, 209, 0.4);
+        }
+        
+        .success-btn:hover {
+            background: linear-gradient(45deg, #3498DB, #52A085);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(69, 183, 209, 0.6);
+        }
+        
+        .hidden {
+            display: none;
+        }
+        
+        .value-display {
+            font-size: 14px;
+            background: linear-gradient(45deg, #45B7D1, #96CEB4);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-weight: bold;
+            margin-left: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>✨ Let's wear noggles! ✨</h1>
+        
+        <div class="upload-section" id="uploadSection">
+            <p>📸 背景画像をアップロードしてください</p>
+            <input type="file" id="backgroundFile" accept="image/*">
+            <p>またはファイルをここにドラッグ&ドロップ</p>
+        </div>
+        
+        
+        <div class="preview-section">
+            <div class="preview-container">
+                <h3>背景画像</h3>
+                <img id="backgroundPreview" class="image-preview hidden" alt="背景画像プレビュー">
+            </div>
+            <div class="preview-container">
+                <h3>Noggleロゴ</h3>
+                <img id="nogglePreview" class="image-preview" alt="Noggleロゴ">
+            </div>
+        </div>
+        
+        <div class="canvas-container">
+            <canvas id="canvas"></canvas>
+        </div>
+        
+        <div class="controls hidden" id="controls">
+            <div class="control-group">
+                <label for="noggleSize">ロゴサイズ: <span class="value-display" id="sizeValue">100px</span></label>
+                <input type="range" id="noggleSize" min="20" max="800" value="100">
+            </div>
+            
+            <div class="control-group">
+                <label for="noggleX">X位置: <span class="value-display" id="xValue">50</span></label>
+                <input type="range" id="noggleX" min="-50" max="150" value="50">
+            </div>
+            
+            <div class="control-group">
+                <label for="noggleY">Y位置: <span class="value-display" id="yValue">50</span></label>
+                <input type="range" id="noggleY" min="-50" max="150" value="50">
+            </div>
+            
+            <div class="control-group">
+                <label for="noggleOpacity">透明度: <span class="value-display" id="opacityValue">100%</span></label>
+                <input type="range" id="noggleOpacity" min="0" max="100" value="100">
+            </div>
+            
+            <div class="control-group">
+                <label for="noggleColor">色調整:</label>
+                <input type="color" id="noggleColor" value="#FFD700">
+            </div>
+            
+            <div class="control-group">
+                <label for="noggleRotation">回転角度: <span class="value-display" id="rotationValue">0°</span></label>
+                <input type="range" id="noggleRotation" min="0" max="360" value="0">
+            </div>
+            
+            <div class="control-group">
+                <label>反転:</label>
+                <div style="display: flex; gap: 15px; margin-top: 8px; flex-wrap: wrap;">
+                    <label style="display: flex; align-items: center; font-weight: normal; cursor: pointer;">
+                        <input type="checkbox" id="flipHorizontal" style="margin-right: 8px; transform: scale(1.2);">
+                        水平反転
+                    </label>
+                    <label style="display: flex; align-items: center; font-weight: normal; cursor: pointer;">
+                        <input type="checkbox" id="flipVertical" style="margin-right: 8px; transform: scale(1.2);">
+                        垂直反転
+                    </label>
+                </div>
+            </div>
+        </div>
+        
+        <div class="buttons">
+            <button id="addLogoBtn" class="primary-btn hidden">Noggleロゴを追加</button>
+            <button id="deleteLogoBtn" class="secondary-btn hidden">選択中のロゴを削除</button>
+            <button id="resetBtn" class="secondary-btn hidden">リセット</button>
+            <button id="downloadBtn" class="success-btn hidden">画像をダウンロード</button>
+        </div>
+        
+        <div id="logoSelector" class="hidden" style="margin: 20px 0; text-align: center; padding: 15px; background: linear-gradient(135deg, rgba(255,255,255,0.8), rgba(255,255,255,0.6)); border-radius: 15px; box-shadow: 0 4px 15px rgba(0,0,0,0.1);">
+            <label for="currentLogo" style="font-weight: bold; margin-right: 10px; background: linear-gradient(45deg, #FF6B6B, #4ECDC4); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">🎯 編集中のロゴ:</label>
+            <select id="currentLogo" style="padding: 8px 15px; border-radius: 20px; border: 2px solid #FF6B6B; background: linear-gradient(45deg, rgba(255,255,255,0.9), rgba(255,255,255,0.7)); font-weight: bold; color: #333; cursor: pointer;">
+                <option value="0">🥽 ロゴ 1</option>
+            </select>
+        </div>
+        
+    </div>
+
+    <script>
+        const backgroundFile = document.getElementById('backgroundFile');
+        const backgroundPreview = document.getElementById('backgroundPreview');
+        const nogglePreview = document.getElementById('nogglePreview');
+        const canvas = document.getElementById('canvas');
+        const ctx = canvas.getContext('2d');
+        const controls = document.getElementById('controls');
+        const uploadSection = document.getElementById('uploadSection');
+        const logoSelector = document.getElementById('logoSelector');
+        const currentLogoSelect = document.getElementById('currentLogo');
+        const addLogoBtn = document.getElementById('addLogoBtn');
+        const deleteLogoBtn = document.getElementById('deleteLogoBtn');
+        
+        const noggleSize = document.getElementById('noggleSize');
+        const noggleX = document.getElementById('noggleX');
+        const noggleY = document.getElementById('noggleY');
+        const noggleOpacity = document.getElementById('noggleOpacity');
+        const noggleColor = document.getElementById('noggleColor');
+        const noggleRotation = document.getElementById('noggleRotation');
+        const flipHorizontal = document.getElementById('flipHorizontal');
+        const flipVertical = document.getElementById('flipVertical');
+        
+        const sizeValue = document.getElementById('sizeValue');
+        const xValue = document.getElementById('xValue');
+        const yValue = document.getElementById('yValue');
+        const opacityValue = document.getElementById('opacityValue');
+        const rotationValue = document.getElementById('rotationValue');
+        
+        const resetBtn = document.getElementById('resetBtn');
+        const downloadBtn = document.getElementById('downloadBtn');
+        
+        let backgroundImg = new Image();
+        let noggleImg = new Image();
+        
+        // 複数ロゴの管理
+        let logos = [];
+        let currentLogoIndex = 0;
+        
+        // デフォルトNoggleロゴの初期化
+        const defaultLogoBase64 = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAYAAAAGACAYAAACkx7W/AAAAAXNSR0IArs4c6QAAAARzQklUCAgICHwIZIgAAAOKSURBVHic7d2xTcRAEEDRMyLkElKghYtxz/RxMc6owwUcLSA5GKz/XgM70tj62sS+XAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADg/1imB6jb77fH9Axl13UbfQfsf9b0/qc9TQ8AwAwBAIgSAIAoAQCIEgCAKAEAiBIAgCgBAIgSAIAoAQCIEgCAKAEAiBIAgCgBAIgSAICo5+kBOObl83v0/Lf3j9Hzf75eR8+fZv/t/R/lBgAQJQAAUQIAECUAAFECABAlAABRAgAQJQAAUQIAECUAAFECABAlAABRAgAQJQAAUQIAEHX6/wHs99tjegbOy/NDmRsAQJQAAEQJAECUAABECQBAlAAARAkAQJQAAEQJAECUAABECQBAlAAARAkAQJQAAEQJAEDU6f8HcNR13ZbJ832Pfpb9U+YGABAlAABRAgAQJQAAUQIAECUAAFECABAlAABRAgAQJQAAUQIAECUAAFECABAlAABRAgAQJQAAUQIAECUAAFECABAlAABRAgAQJQAAUQIAECUAAFECABAlAABRAgAQJQAAUQIAECUAAFECABC1TA9Qt99vj+kZyq7rNvoO2P+s6f1PcwMAiBIAgCgBAIgSAIAoAQCIEgCAKAEAiBIAgCgBAIgSAIAoAQCIEgCAKAEAiBIAgCgBAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACAP/gFv0ckk1r/UwAAAAAASUVORK5CYII=';
+        
+        noggleImg.onload = function() {
+            nogglePreview.src = noggleImg.src;
+            console.log('Default Noggle logo loaded successfully');
+            // 初期ロゴを配列に追加
+            initializeFirstLogo();
+        };
+        noggleImg.onerror = function() {
+            console.error('Failed to load default Noggle logo');
+        };
+        noggleImg.src = defaultLogoBase64;
+        
+        // 初期ロゴの設定
+        function initializeFirstLogo() {
+            logos = [{
+                size: 100,
+                x: 50,
+                y: 50,
+                opacity: 100,
+                color: '#FFD700',
+                rotation: 0,
+                flipH: false,
+                flipV: false
+            }];
+            currentLogoIndex = 0;
+        }
+        
+        // ドラッグ&ドロップ機能
+        uploadSection.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            uploadSection.classList.add('dragover');
+        });
+        
+        uploadSection.addEventListener('dragleave', () => {
+            uploadSection.classList.remove('dragover');
+        });
+        
+        uploadSection.addEventListener('drop', (e) => {
+            e.preventDefault();
+            uploadSection.classList.remove('dragover');
+            const files = e.dataTransfer.files;
+            if (files.length > 0) {
+                handleFileUpload(files[0]);
+            }
+        });
+        
+        backgroundFile.addEventListener('change', (e) => {
+            if (e.target.files.length > 0) {
+                handleFileUpload(e.target.files[0]);
+            }
+        });
+        
+        function handleFileUpload(file) {
+            if (!file.type.startsWith('image/')) {
+                alert('画像ファイルを選択してください。');
+                return;
+            }
+            
+            const reader = new FileReader();
+            reader.onload = (e) => {
+                backgroundImg.onload = function() {
+                    backgroundPreview.src = backgroundImg.src;
+                    backgroundPreview.classList.remove('hidden');
+                    setupCanvas();
+                    controls.classList.remove('hidden');
+                    resetBtn.classList.remove('hidden');
+                    downloadBtn.classList.remove('hidden');
+                };
+                backgroundImg.crossOrigin = 'anonymous';
+                backgroundImg.src = e.target.result;
+            };
+            reader.readAsDataURL(file);
+        }
+        
+        function setupCanvas() {
+            canvas.width = Math.min(backgroundImg.width, 800);
+            canvas.height = (backgroundImg.height * canvas.width) / backgroundImg.width;
+            controls.classList.remove('hidden');
+            logoSelector.classList.remove('hidden');
+            addLogoBtn.classList.remove('hidden');
+            deleteLogoBtn.classList.remove('hidden');
+            resetBtn.classList.remove('hidden');
+            downloadBtn.classList.remove('hidden');
+            updateControlsFromCurrentLogo();
+            drawComposite();
+        }
+        
+        function drawComposite() {
+            // 画像がロードされていない場合は何もしない
+            if (!backgroundImg || !backgroundImg.complete || backgroundImg.naturalWidth === 0) {
+                console.log('Background image not ready');
+                return;
+            }
+            if (!noggleImg || !noggleImg.complete || noggleImg.naturalWidth === 0) {
+                console.log('Noggle image not ready');
+                return;
+            }
+            
+            console.log('Drawing composite with', logos.length, 'logos...');
+            
+            // キャンバスをクリア
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            
+            // 背景画像を描画
+            ctx.drawImage(backgroundImg, 0, 0, canvas.width, canvas.height);
+            
+            // 全てのロゴを描画
+            logos.forEach((logo, index) => {
+                drawSingleLogo(logo, index === currentLogoIndex);
+            });
+        }
+        
+        function drawSingleLogo(logo, isSelected) {
+            const size = logo.size;
+            const xPercent = logo.x;
+            const yPercent = logo.y;
+            const opacity = logo.opacity / 100;
+            const rotation = logo.rotation;
+            const flipH = logo.flipH;
+            const flipV = logo.flipV;
+            const color = logo.color;
+            
+            // ロゴのサイズを計算
+            const aspectRatio = noggleImg.naturalHeight / noggleImg.naturalWidth;
+            const logoWidth = size;
+            const logoHeight = size * aspectRatio;
+            
+            // 位置を計算（-50%～150%の範囲で配置可能）
+            const xPos = (xPercent / 100) * canvas.width - (logoWidth / 2);
+            const yPos = (yPercent / 100) * canvas.height - (logoHeight / 2);
+            
+            // 描画用の画像を決定
+            let imageToUse = noggleImg;
+            
+            // メガネフレーム部分のみの色変更処理
+            if (color && color !== '#ffd700' && color !== '#FFD700') {
+                try {
+                    const colorCanvas = document.createElement('canvas');
+                    const colorCtx = colorCanvas.getContext('2d');
+                    colorCanvas.width = noggleImg.naturalWidth;
+                    colorCanvas.height = noggleImg.naturalHeight;
+                    
+                    // 元画像を描画
+                    colorCtx.drawImage(noggleImg, 0, 0);
+                    
+                    // ピクセル操作でフレーム部分のみ色変更
+                    const imageData = colorCtx.getImageData(0, 0, colorCanvas.width, colorCanvas.height);
+                    const data = imageData.data;
+                    
+                    const hex = color.replace('#', '');
+                    const newR = parseInt(hex.substr(0, 2), 16);
+                    const newG = parseInt(hex.substr(2, 2), 16);
+                    const newB = parseInt(hex.substr(4, 2), 16);
+                    
+                    for (let i = 0; i < data.length; i += 4) {
+                        const r = data[i];
+                        const g = data[i + 1];
+                        const b = data[i + 2];
+                        const a = data[i + 3];
+                        
+                        // 透明でないピクセルのみ処理
+                        if (a > 100) {
+                            // 黄色いフレーム部分を検出（黒いレンズ部分は除外）
+                            const isYellowFrame = (
+                                r > 200 && g > 180 && b < 100 &&  // 黄色っぽい
+                                (r + g + b) > 400 &&              // 十分明るい
+                                Math.abs(r - g) < 60              // 赤と緑のバランス
+                            );
+                            
+                            // 黒いレンズ部分を除外
+                            const isBlackLens = (r + g + b) < 150;
+                            
+                            // 白い部分も除外（内部の白枠）
+                            const isWhiteFrame = r > 240 && g > 240 && b > 240;
+                            
+                            if (isYellowFrame && !isBlackLens && !isWhiteFrame) {
+                                data[i] = newR;
+                                data[i + 1] = newG;
+                                data[i + 2] = newB;
+                            }
+                        }
+                    }
+                    
+                    colorCtx.putImageData(imageData, 0, 0);
+                    imageToUse = colorCanvas;
+                } catch (e) {
+                    console.error('Frame color change failed:', e);
+                    imageToUse = noggleImg;
+                }
+            }
+            
+            // ロゴを描画
+            ctx.save();
+            ctx.globalAlpha = opacity;
+            
+            try {
+                if (rotation !== 0 || flipH || flipV) {
+                    // 変換がある場合（回転または反転）
+                    const centerX = xPos + logoWidth / 2;
+                    const centerY = yPos + logoHeight / 2;
+                    ctx.translate(centerX, centerY);
+                    ctx.rotate((rotation * Math.PI) / 180);
+                    ctx.scale(flipH ? -1 : 1, flipV ? -1 : 1);
+                    ctx.drawImage(imageToUse, -logoWidth / 2, -logoHeight / 2, logoWidth, logoHeight);
+                } else {
+                    // 変換なしの場合
+                    ctx.drawImage(imageToUse, xPos, yPos, logoWidth, logoHeight);
+                }
+            } catch (e) {
+                console.error('Logo drawing failed:', e);
+                // エラーの場合は元画像で描画
+                if (rotation !== 0 || flipH || flipV) {
+                    const centerX = xPos + logoWidth / 2;
+                    const centerY = yPos + logoHeight / 2;
+                    ctx.translate(centerX, centerY);
+                    ctx.rotate((rotation * Math.PI) / 180);
+                    ctx.scale(flipH ? -1 : 1, flipV ? -1 : 1);
+                    ctx.drawImage(noggleImg, -logoWidth / 2, -logoHeight / 2, logoWidth, logoHeight);
+                } else {
+                    ctx.drawImage(noggleImg, xPos, yPos, logoWidth, logoHeight);
+                }
+            }
+            
+            // 選択中のロゴに枠線を描画
+            if (isSelected) {
+                ctx.strokeStyle = '#ff0000';
+                ctx.lineWidth = 2;
+                ctx.strokeRect(xPos - 2, yPos - 2, logoWidth + 4, logoHeight + 4);
+            }
+            
+            ctx.restore();
+        }
+        
+        // コントロールとロゴデータの連動
+        function updateControlsFromCurrentLogo() {
+            if (logos[currentLogoIndex]) {
+                const logo = logos[currentLogoIndex];
+                noggleSize.value = logo.size;
+                noggleX.value = logo.x;
+                noggleY.value = logo.y;
+                noggleOpacity.value = logo.opacity;
+                noggleColor.value = logo.color;
+                noggleRotation.value = logo.rotation;
+                flipHorizontal.checked = logo.flipH;
+                flipVertical.checked = logo.flipV;
+                
+                sizeValue.textContent = logo.size + 'px';
+                xValue.textContent = logo.x;
+                yValue.textContent = logo.y;
+                opacityValue.textContent = logo.opacity + '%';
+                rotationValue.textContent = logo.rotation + '°';
+            }
+        }
+        
+        function updateCurrentLogoFromControls() {
+            if (logos[currentLogoIndex]) {
+                logos[currentLogoIndex].size = parseInt(noggleSize.value) || 100;
+                logos[currentLogoIndex].x = parseInt(noggleX.value) || 50;
+                logos[currentLogoIndex].y = parseInt(noggleY.value) || 50;
+                logos[currentLogoIndex].opacity = parseInt(noggleOpacity.value) || 100;
+                logos[currentLogoIndex].color = noggleColor.value;
+                logos[currentLogoIndex].rotation = parseInt(noggleRotation.value) || 0;
+                logos[currentLogoIndex].flipH = flipHorizontal.checked;
+                logos[currentLogoIndex].flipV = flipVertical.checked;
+            }
+        }
+        
+        // コントロールイベント
+        noggleSize.addEventListener('input', () => {
+            sizeValue.textContent = noggleSize.value + 'px';
+            updateCurrentLogoFromControls();
+            drawComposite();
+        });
+        
+        noggleX.addEventListener('input', () => {
+            xValue.textContent = noggleX.value;
+            updateCurrentLogoFromControls();
+            drawComposite();
+        });
+        
+        noggleY.addEventListener('input', () => {
+            yValue.textContent = noggleY.value;
+            updateCurrentLogoFromControls();
+            drawComposite();
+        });
+        
+        noggleOpacity.addEventListener('input', () => {
+            opacityValue.textContent = noggleOpacity.value + '%';
+            updateCurrentLogoFromControls();
+            drawComposite();
+        });
+        
+        noggleColor.addEventListener('input', () => {
+            updateCurrentLogoFromControls();
+            drawComposite();
+        });
+        
+        noggleRotation.addEventListener('input', () => {
+            rotationValue.textContent = noggleRotation.value + '°';
+            updateCurrentLogoFromControls();
+            drawComposite();
+        });
+        
+        flipHorizontal.addEventListener('change', () => {
+            updateCurrentLogoFromControls();
+            drawComposite();
+        });
+        flipVertical.addEventListener('change', () => {
+            updateCurrentLogoFromControls();
+            drawComposite();
+        });
+        
+        // ロゴ管理機能
+        addLogoBtn.addEventListener('click', () => {
+            const newLogo = {
+                size: 100,
+                x: 50,
+                y: 50,
+                opacity: 100,
+                color: '#FFD700',
+                rotation: 0,
+                flipH: false,
+                flipV: false
+            };
+            logos.push(newLogo);
+            currentLogoIndex = logos.length - 1;
+            updateLogoSelector();
+            updateControlsFromCurrentLogo();
+            drawComposite();
+        });
+        
+        deleteLogoBtn.addEventListener('click', () => {
+            if (logos.length > 1) {
+                logos.splice(currentLogoIndex, 1);
+                if (currentLogoIndex >= logos.length) {
+                    currentLogoIndex = logos.length - 1;
+                }
+                updateLogoSelector();
+                updateControlsFromCurrentLogo();
+                drawComposite();
+            } else {
+                alert('少なくとも1つのロゴが必要です。');
+            }
+        });
+        
+        currentLogoSelect.addEventListener('change', (e) => {
+            currentLogoIndex = parseInt(e.target.value);
+            updateControlsFromCurrentLogo();
+            drawComposite();
+        });
+        
+        function updateLogoSelector() {
+            currentLogoSelect.innerHTML = '';
+            logos.forEach((logo, index) => {
+                const option = document.createElement('option');
+                option.value = index;
+                option.textContent = `🥽 ロゴ ${index + 1}`;
+                if (index === currentLogoIndex) {
+                    option.selected = true;
+                }
+                currentLogoSelect.appendChild(option);
+            });
+        }
+        
+        // リセット機能
+        resetBtn.addEventListener('click', () => {
+            backgroundFile.value = '';
+            backgroundPreview.classList.add('hidden');
+            canvas.width = 0;
+            canvas.height = 0;
+            controls.classList.add('hidden');
+            resetBtn.classList.add('hidden');
+            downloadBtn.classList.add('hidden');
+            
+            // スライダーをリセット
+            noggleSize.value = 100;
+            noggleX.value = 50;
+            noggleY.value = 50;
+            noggleOpacity.value = 100;
+            noggleColor.value = '#FFD700';
+            noggleRotation.value = 0;
+            flipHorizontal.checked = false;
+            flipVertical.checked = false;
+            sizeValue.textContent = '100px';
+            xValue.textContent = '50';
+            yValue.textContent = '50';
+            opacityValue.textContent = '100%';
+            rotationValue.textContent = '0°';
+        });
+        
+        // ダウンロード機能
+        downloadBtn.addEventListener('click', () => {
+            const link = document.createElement('a');
+            link.download = 'noggle-overlay-image.png';
+            link.href = canvas.toDataURL();
+            link.click();
+        });
+    </script>
+</body>
+</html>

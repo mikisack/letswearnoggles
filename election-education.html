@@ -1,0 +1,851 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>参議院選挙の仕組み - 選挙制度教育サイト</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary-color: #ff6b6b;
+            --secondary-color: #4ecdc4;
+            --accent-color: #ffe66d;
+            --success-color: #51cf66;
+            --warning-color: #ff8787;
+            --fun-purple: #845ec2;
+            --fun-orange: #ffc947;
+            --text-primary: #2c3e50;
+            --text-secondary: #5a6c7d;
+            --bg-primary: #f8f9fa;
+            --bg-secondary: #ffffff;
+            --border-color: #e9ecef;
+            --shadow-sm: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+            --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+            --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+        }
+
+        body {
+            font-family: 'Inter', 'Hiragino Sans', 'Meiryo', sans-serif;
+            line-height: 1.7;
+            color: var(--text-primary);
+            background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 50%, var(--accent-color) 100%);
+            background-size: 400% 400%;
+            animation: gradientShift 15s ease infinite;
+            min-height: 100vh;
+        }
+
+        @keyframes gradientShift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        header {
+            background: linear-gradient(135deg, rgba(255, 107, 107, 0.95) 0%, rgba(78, 205, 196, 0.95) 100%);
+            backdrop-filter: blur(10px);
+            color: white;
+            padding: 4rem 0;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grain" width="100" height="100" patternUnits="userSpaceOnUse"><circle cx="20" cy="20" r="1" fill="white" opacity="0.1"/><circle cx="80" cy="80" r="1" fill="white" opacity="0.1"/><circle cx="40" cy="60" r="1" fill="white" opacity="0.1"/></pattern></defs><rect width="100" height="100" fill="url(%23grain)"/></svg>');
+            opacity: 0.3;
+        }
+
+        h1 {
+            font-size: 3.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            background: linear-gradient(45deg, #fff, var(--accent-color), var(--fun-orange));
+            background-size: 200% 200%;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            position: relative;
+            z-index: 1;
+            animation: textShine 4s ease-in-out infinite;
+        }
+
+        @keyframes textShine {
+            0%, 100% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+        }
+
+        .subtitle {
+            font-size: 1.3rem;
+            font-weight: 300;
+            opacity: 0.95;
+            position: relative;
+            z-index: 1;
+        }
+
+        nav {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(15px);
+            padding: 1rem 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        nav ul {
+            list-style: none;
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+
+        nav a {
+            color: white;
+            text-decoration: none;
+            padding: 0.8rem 1.5rem;
+            border-radius: 25px;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            font-weight: 500;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        nav a:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-md);
+        }
+
+        main {
+            padding: 3rem 0;
+            background: var(--bg-primary);
+            min-height: 100vh;
+        }
+
+        .section {
+            background: var(--bg-secondary);
+            margin: 3rem 0;
+            padding: 3rem;
+            border-radius: 20px;
+            box-shadow: var(--shadow-xl);
+            position: relative;
+            overflow: hidden;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .section:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.15);
+        }
+
+        .section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary-color), var(--accent-color), var(--fun-purple));
+            background-size: 200% 100%;
+            animation: shimmer 3s ease-in-out infinite;
+        }
+
+        @keyframes shimmer {
+            0% { background-position: -200% 0; }
+            100% { background-position: 200% 0; }
+        }
+
+        h2 {
+            color: var(--text-primary);
+            margin-bottom: 2rem;
+            font-size: 2.2rem;
+            font-weight: 600;
+            position: relative;
+            padding-bottom: 1rem;
+        }
+
+        h2::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 60px;
+            height: 3px;
+            background: linear-gradient(90deg, var(--primary-color), var(--accent-color));
+            border-radius: 2px;
+        }
+
+        h3 {
+            color: var(--text-secondary);
+            margin: 2rem 0 1rem 0;
+            font-size: 1.4rem;
+            font-weight: 600;
+        }
+
+        .highlight-box {
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.1), rgba(240, 147, 251, 0.1));
+            border: 1px solid rgba(102, 126, 234, 0.2);
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            position: relative;
+        }
+
+        .highlight-box::before {
+            content: '💡';
+            position: absolute;
+            top: -10px;
+            left: 20px;
+            background: var(--bg-secondary);
+            padding: 0 8px;
+            font-size: 1.2rem;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
+
+        .voting-process {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+            margin: 2rem 0;
+        }
+
+        .process-step {
+            background: linear-gradient(135deg, #f8fafc, #e2e8f0);
+            padding: 2rem;
+            border-radius: 16px;
+            text-align: center;
+            position: relative;
+            transition: all 0.3s ease;
+            border: 1px solid var(--border-color);
+        }
+
+        .process-step:hover {
+            transform: translateY(-8px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .step-number {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1.5rem;
+            font-weight: 700;
+            font-size: 1.5rem;
+            box-shadow: var(--shadow-md);
+            animation: bounce 2s infinite;
+        }
+
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% {
+                transform: translateY(0);
+            }
+            40% {
+                transform: translateY(-10px);
+            }
+            60% {
+                transform: translateY(-5px);
+            }
+        }
+
+        .important-note {
+            background: linear-gradient(135deg, rgba(251, 191, 36, 0.1), rgba(245, 158, 11, 0.1));
+            border: 1px solid rgba(251, 191, 36, 0.3);
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            position: relative;
+        }
+
+        .important-note::before {
+            content: '⚠️';
+            position: absolute;
+            top: -10px;
+            left: 20px;
+            background: var(--bg-secondary);
+            padding: 0 8px;
+            font-size: 1.2rem;
+            animation: wiggle 1s ease-in-out infinite;
+        }
+
+        @keyframes wiggle {
+            0%, 100% { transform: rotate(0deg); }
+            25% { transform: rotate(-5deg); }
+            75% { transform: rotate(5deg); }
+        }
+
+        .election-types {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2rem;
+            margin: 2rem 0;
+        }
+
+        .election-type {
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.8), rgba(248, 250, 252, 0.8));
+            padding: 2.5rem;
+            border-radius: 16px;
+            border: 1px solid var(--border-color);
+            position: relative;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+        }
+
+        .election-type:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .election-type h4 {
+            color: var(--primary-color);
+            margin-bottom: 1.5rem;
+            font-size: 1.3rem;
+            font-weight: 600;
+        }
+
+        .election-type::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, var(--primary-color), var(--accent-color));
+            border-radius: 12px 12px 0 0;
+        }
+
+        footer {
+            background: linear-gradient(135deg, rgba(26, 32, 44, 0.95), rgba(45, 55, 72, 0.95));
+            backdrop-filter: blur(10px);
+            color: white;
+            text-align: center;
+            padding: 3rem 0;
+            margin-top: 4rem;
+        }
+
+        ul {
+            padding-left: 1.5rem;
+        }
+
+        li {
+            margin: 0.5rem 0;
+            color: var(--text-secondary);
+        }
+
+        strong {
+            color: var(--text-primary);
+            font-weight: 600;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .section {
+            animation: fadeInUp 0.6s ease-out;
+        }
+
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2.5rem;
+            }
+            
+            nav ul {
+                flex-direction: column;
+                align-items: center;
+                gap: 0.3rem;
+            }
+            
+            .section {
+                padding: 2rem 1.5rem;
+                margin: 2rem 0;
+            }
+            
+            h2 {
+                font-size: 1.8rem;
+            }
+            
+            .voting-process {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+            }
+            
+            .election-types {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <h1>🗳️ 参議院選挙ってなんだろう？</h1>
+            <p class="subtitle">楽しく学ぼう！日本の選挙のあれこれ 🇯🇵✨</p>
+        </div>
+    </header>
+
+    <nav>
+        <div class="container">
+            <ul>
+                <li><a href="#overview">選挙概要</a></li>
+                <li><a href="#system">選挙制度</a></li>
+                <li><a href="#voting">投票方法</a></li>
+                <li><a href="#policy-areas">政策分野</a></li>
+                <li><a href="#election-info">選挙情報の見方</a></li>
+                <li><a href="#policy-guide">政策情報ガイド</a></li>
+                <li><a href="#schedule">選挙日程</a></li>
+                <li><a href="#roles">参議院の役割</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <main>
+        <div class="container">
+            <section id="overview" class="section">
+                <h2>🏛️ 参議院選挙って何？</h2>
+                <p>簡単に言うと、国会の「参議院」という部屋で働く政治家さんたちを選ぶ選挙です！参議院の議員さんは6年間お仕事をして、3年ごとに約半分の人が入れ替わります。まるで学校のクラス替えみたいですね 😊</p>
+                
+                <div class="highlight-box">
+                    <strong>🎯 ここがポイント！</strong>
+                    <ul>
+                        <li>参議院議員の定数：248人</li>
+                        <li>任期：6年（3年ごとに半数改選）</li>
+                        <li>選挙権年齢：18歳以上の日本国民</li>
+                        <li>被選挙権年齢：30歳以上の日本国民</li>
+                    </ul>
+                </div>
+            </section>
+
+            <section id="system" class="section">
+                <h2>🎲 選挙の仕組み</h2>
+                <p>参議院選挙には2つのゲームルールがあります！「選挙区選挙」と「比例代表選挙」という2つの方法で投票するんです。ちょっと複雑に聞こえるけど、実はそんなに難しくないですよ 🤔</p>
+
+                <div class="election-types">
+                    <div class="election-type">
+                        <h4>🏠 選挙区選挙（74議席）</h4>
+                        <p><strong>制度：</strong>大選挙区制（一部の県では小選挙区制）</p>
+                        <p><strong>投票方法：</strong>候補者名を記入</p>
+                        <p><strong>特徴：</strong>各都道府県から1〜6名を選出。人口に応じて定数が決まる。</p>
+                    </div>
+                    
+                    <div class="election-type">
+                        <h4>🌍 比例代表選挙（50議席）</h4>
+                        <p><strong>制度：</strong>拘束名簿式比例代表制</p>
+                        <p><strong>投票方法：</strong>政党名または個人名を記入</p>
+                        <p><strong>特徴：</strong>全国を1つの選挙区として政党の得票率に応じて議席を配分。</p>
+                    </div>
+                </div>
+
+                <div class="important-note">
+                    <strong>📝 大事なこと：</strong>みなさんは2回投票します！選挙区と比例代表、両方に投票するんです。つまり2枚の投票用紙をもらって、それぞれに書くことになります 👍
+                </div>
+            </section>
+
+            <section id="voting" class="section">
+                <h2>✏️ 投票のやり方</h2>
+                
+                <div class="voting-process">
+                    <div class="process-step">
+                        <div class="step-number">1</div>
+                        <h3>🎫 入場券をチェック！</h3>
+                        <p>おうちに届いた「投票所入場券」を忘れずに持って行きましょう。映画館のチケットみたいなものです！</p>
+                    </div>
+                    
+                    <div class="process-step">
+                        <div class="step-number">2</div>
+                        <h3>👋 「こんにちは！」</h3>
+                        <p>投票所の受付で「本人ですよ〜」って確認してもらいます。身分証明書があると安心ですね。</p>
+                    </div>
+                    
+                    <div class="process-step">
+                        <div class="step-number">3</div>
+                        <h3>📄 用紙を受け取ろう</h3>
+                        <p>白い紙と黄色い紙、2枚の投票用紙をもらいます。色で分かれているので間違えにくいですよ！</p>
+                    </div>
+                    
+                    <div class="process-step">
+                        <div class="step-number">4</div>
+                        <h3>🖊️ 書いて投票！</h3>
+                        <p>個室のブースで候補者名や政党名を書いて、投票箱にポイッ！これで完了です 🎉</p>
+                    </div>
+                </div>
+
+                <h3>📝 何を書けばいいの？</h3>
+                <div class="highlight-box">
+                    <ul>
+                        <li><strong>白い紙（選挙区）：</strong>候補者のお名前を書きます。“田中太郎”みたいに！</li>
+                        <li><strong>黄色い紙（比例代表）：</strong>政党名か、候補者のお名前のどちらかを書きます。「○○党」でも「山田花子」でもOK！</li>
+                    </ul>
+                </div>
+            </section>
+
+            <section id="policy-areas" class="section">
+                <h2>🌿 政治家が話すことたち</h2>
+                <p>選挙のとき、政治家さんたちはこんなことについてお話しします。みなさんの生活に関わる大切なことばかりですよ 😊</p>
+
+                <div class="election-types">
+                    <div class="election-type">
+                        <h4>📊 経済・財政政策</h4>
+                        <ul>
+                            <li>経済成長戦略</li>
+                            <li>財政健全化</li>
+                            <li>税制改革</li>
+                            <li>中小企業支援</li>
+                            <li>雇用対策</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="election-type">
+                        <h4>🏥 社会保障・医療</h4>
+                        <ul>
+                            <li>年金制度</li>
+                            <li>医療保険制度</li>
+                            <li>介護保険制度</li>
+                            <li>少子高齢化対策</li>
+                            <li>働き方改革</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="election-type">
+                        <h4>🎓 教育・子育て</h4>
+                        <ul>
+                            <li>教育制度改革</li>
+                            <li>子育て支援</li>
+                            <li>大学教育</li>
+                            <li>奨学金制度</li>
+                            <li>待機児童問題</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="election-type">
+                        <h4>🌍 環境・エネルギー</h4>
+                        <ul>
+                            <li>気候変動対策</li>
+                            <li>再生可能エネルギー</li>
+                            <li>原発政策</li>
+                            <li>環境保護</li>
+                            <li>持続可能な社会</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="election-type">
+                        <h4>🛡️ 外交・安全保障</h4>
+                        <ul>
+                            <li>日米関係</li>
+                            <li>アジア外交</li>
+                            <li>防衛政策</li>
+                            <li>国際協力</li>
+                            <li>平和主義</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="election-type">
+                        <h4>📜 憲法・政治制度</h4>
+                        <ul>
+                            <li>憲法改正</li>
+                            <li>政治改革</li>
+                            <li>地方分権</li>
+                            <li>選挙制度</li>
+                            <li>議員定数</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="important-note">
+                    <strong>🤝 フェアにいきましょう！</strong>このサイトはどの政党も応援していません。各政党の具体的な政策は、選挙公報や各政党のホームページでチェックしてくださいね！
+                </div>
+            </section>
+
+            <section id="election-info" class="section">
+                <h2>🔍 選挙情報を上手に使おう！</h2>
+                <p>選挙の情報っていっぱいあって、どこを見ればいいかわからないですよね。でも安心してください！コツを教えちゃいます 😉</p>
+
+                <h3>📋 選挙公報ってどんなもの？</h3>
+                <div class="voting-process">
+                    <div class="process-step">
+                        <div class="step-number">1</div>
+                        <h3>👤 この人だれ？</h3>
+                        <p>候補者のお名前、年齢、これまで何をしていたかなど、基本プロフィールがわかります。</p>
+                    </div>
+                    
+                    <div class="process-step">
+                        <div class="step-number">2</div>
+                        <h3>📜 何をしたいの？</h3>
+                        <p>「こんなことをやりたい！」という各候補者・政党の「やりたいことリスト」が書いてあります。</p>
+                    </div>
+                    
+                    <div class="process-step">
+                        <div class="step-number">3</div>
+                        <h3>🎆 だれが応援してる？</h3>
+                        <p>「この人を応援します！」と言っている団体や組織がわかります。</p>
+                    </div>
+                    
+                    <div class="process-step">
+                        <div class="step-number">4</div>
+                        <h3>📞 どこにいるの？</h3>
+                        <p>事務所の住所や電話番号、ホームページなど、連絡先が書いてあります。</p>
+                    </div>
+                </div>
+
+                <h3>🔍 情報集めのコツ</h3>
+                <div class="highlight-box">
+                    <strong>上手な情報集めの方法：</strong>
+                    <ul>
+                        <li>いろんなサイトや情報を比べてみる</li>
+                        <li>「この人、前に何してたの？」を調べる</li>
+                        <li>「本当にできるの？」を考える</li>
+                        <li>自分の気持ちや興味と合うかチェック</li>
+                        <li>討論会や集会に参加して直接聞いてみる</li>
+                    </ul>
+                </div>
+
+                <h3>🎯 投票判断のための質問例</h3>
+                <div class="election-types">
+                    <div class="election-type">
+                        <h4>政策について</h4>
+                        <ul>
+                            <li>この政策は実現可能か？</li>
+                            <li>財源はどう確保するのか？</li>
+                            <li>他の政策との整合性は？</li>
+                            <li>長期的な影響はどうか？</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="election-type">
+                        <h4>候補者について</h4>
+                        <ul>
+                            <li>過去の実績はどうか？</li>
+                            <li>専門性や経験は十分か？</li>
+                            <li>価値観は共感できるか？</li>
+                            <li>説明責任を果たしているか？</li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+
+            <section id="policy-guide" class="section">
+                <h2>📚 政策を自分で調べてみよう！</h2>
+                <p>「政策ってどう調べるの？」「どう比べるの？」って思いませんか？そんなみなさんのために、簡単で実用的な方法を教えちゃいます 😊</p>
+
+                <h3>🔍 どこで情報を手に入れる？</h3>
+                <div class="voting-process">
+                    <div class="process-step">
+                        <div class="step-number">1</div>
+                        <h3>📰 選挙公報</h3>
+                        <p>おうちのポストに届く公式のパンフレット。全候補者・政党の情報がまとめて載っているので、これ一冊でOK！</p>
+                    </div>
+                    
+                    <div class="process-step">
+                        <div class="step-number">2</div>
+                        <h3>🌐 政党のホームページ</h3>
+                        <p>各政党の公式サイト。詳しい政策や「やりたいことリスト（マニフェスト）」が見れます。</p>
+                    </div>
+                    
+                    <div class="process-step">
+                        <div class="step-number">3</div>
+                        <h3>候補者サイト・SNS</h3>
+                        <p>個人の候補者のウェブサイトやSNSで具体的な政策や考えを確認できます。</p>
+                    </div>
+                    
+                    <div class="process-step">
+                        <div class="step-number">4</div>
+                        <h3>公開討論会</h3>
+                        <p>候補者が直接政策について語る討論会やタウンミーティングに参加できます。</p>
+                    </div>
+                </div>
+
+                <h3>📊 政策比較の手法</h3>
+                <div class="election-types">
+                    <div class="election-type">
+                        <h4>ステップ1: 関心分野の整理</h4>
+                        <ul>
+                            <li>自分が重視する政策分野を明確にする</li>
+                            <li>優先順位をつける</li>
+                            <li>具体的な課題を洗い出す</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="election-type">
+                        <h4>ステップ2: 政策の収集</h4>
+                        <ul>
+                            <li>各政党・候補者の政策を収集</li>
+                            <li>複数の情報源を確認</li>
+                            <li>最新の情報を入手</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="election-type">
+                        <h4>ステップ3: 比較表の作成</h4>
+                        <ul>
+                            <li>政策分野ごとに整理</li>
+                            <li>具体性・実現可能性を評価</li>
+                            <li>財源や手段を確認</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="election-type">
+                        <h4>ステップ4: 総合判断</h4>
+                        <ul>
+                            <li>自分の価値観と照らし合わせる</li>
+                            <li>候補者の実績も考慮</li>
+                            <li>長期的な影響を検討</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <h3>🌐 信頼できる情報源</h3>
+                <div class="highlight-box">
+                    <strong>中立的な情報源の例：</strong>
+                    <ul>
+                        <li><strong>総務省</strong>：選挙の基本情報、制度の説明</li>
+                        <li><strong>各都道府県選挙管理委員会</strong>：地域の選挙情報</li>
+                        <li><strong>国会図書館</strong>：過去の選挙結果、政策資料</li>
+                        <li><strong>報道機関</strong>：複数のメディアの報道を比較</li>
+                        <li><strong>政治団体・市民団体</strong>：政策分析や討論会の開催</li>
+                    </ul>
+                </div>
+
+                <h3>⚠️ 情報収集時の注意点</h3>
+                <div class="important-note">
+                    <strong>情報リテラシーのポイント：</strong>
+                    <ul>
+                        <li>情報の発信者と日付を確認する</li>
+                        <li>複数の情報源で事実確認を行う</li>
+                        <li>感情的な表現より具体的な内容を重視する</li>
+                        <li>偏った情報に惑わされないよう注意する</li>
+                        <li>SNSの情報は特に慎重に検証する</li>
+                    </ul>
+                </div>
+
+                <h3>📋 政策比較チェックリスト</h3>
+                <div class="election-types">
+                    <div class="election-type">
+                        <h4>政策内容の確認</h4>
+                        <ul>
+                            <li>□ 具体的な目標が示されているか</li>
+                            <li>□ 実現のための手段が明確か</li>
+                            <li>□ 必要な財源が示されているか</li>
+                            <li>□ 実現可能性が高いか</li>
+                            <li>□ 他の政策との整合性があるか</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="election-type">
+                        <h4>候補者・政党の評価</h4>
+                        <ul>
+                            <li>□ 過去の実績はどうか</li>
+                            <li>□ 専門知識や経験は十分か</li>
+                            <li>□ 一貫性のある主張をしているか</li>
+                            <li>□ 説明責任を果たしているか</li>
+                            <li>□ 信頼できる人物・団体か</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="important-note">
+                    <strong>重要：</strong>このガイドは政策を自分で調べ、判断するためのツールです。最終的な投票判断は、有権者自身が行うものです。
+                </div>
+            </section>
+
+            <section id="schedule" class="section">
+                <h2>選挙日程</h2>
+                <h3>一般的な選挙スケジュール</h3>
+                <ul>
+                    <li><strong>公示日：</strong>選挙期日の17日前</li>
+                    <li><strong>選挙運動期間：</strong>公示日から選挙期日前日まで（17日間）</li>
+                    <li><strong>期日前投票：</strong>公示日翌日から選挙期日前日まで</li>
+                    <li><strong>投票日：</strong>午前7時〜午後8時（一部地域で時間変更あり）</li>
+                </ul>
+
+                <div class="important-note">
+                    <strong>期日前投票について：</strong>投票日に投票所に行けない場合は、期日前投票を利用できます。市区町村役場や指定された施設で投票可能です。
+                </div>
+            </section>
+
+            <section id="roles" class="section">
+                <h2>参議院の役割</h2>
+                <p>参議院は「良識の府」「再考の府」と呼ばれ、衆議院とともに国会を構成します。</p>
+
+                <h3>主な権限</h3>
+                <ul>
+                    <li>法律案の審議・議決</li>
+                    <li>予算案の審議（衆議院の優越あり）</li>
+                    <li>内閣総理大臣の指名（衆議院の優越あり）</li>
+                    <li>内閣不信任決議（参議院にはなし）</li>
+                    <li>憲法改正の発議</li>
+                    <li>国政調査権の行使</li>
+                </ul>
+
+                <h3>衆議院との違い</h3>
+                <div class="election-types">
+                    <div class="election-type">
+                        <h4>参議院</h4>
+                        <ul>
+                            <li>任期：6年</li>
+                            <li>解散：なし</li>
+                            <li>被選挙権：30歳以上</li>
+                            <li>定数：248人</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="election-type">
+                        <h4>衆議院</h4>
+                        <ul>
+                            <li>任期：4年</li>
+                            <li>解散：あり</li>
+                            <li>被選挙権：25歳以上</li>
+                            <li>定数：465人</li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2025 選挙制度教育サイト - 日本の民主主義を学ぼう</p>
+            <p>このサイトは教育目的で作成された中立的な情報提供サイトです。</p>
+        </div>
+    </footer>
+</body>
+</html>

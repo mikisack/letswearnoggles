@@ -1,0 +1,167 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    min-height: 400px;
+    width: 350px;
+}
+
+.container {
+    padding: 20px;
+    color: white;
+}
+
+.header {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.header h1 {
+    font-size: 24px;
+    font-weight: 600;
+    margin-bottom: 8px;
+}
+
+.refresh-time {
+    font-size: 12px;
+    opacity: 0.8;
+}
+
+.price-card {
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    border-radius: 12px;
+    padding: 16px;
+    margin-bottom: 12px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    transition: transform 0.2s ease;
+}
+
+.price-card:hover {
+    transform: translateY(-2px);
+}
+
+.coin-info {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.coin-name {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.coin-icon {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+}
+
+.coin-name span {
+    font-size: 16px;
+    font-weight: 500;
+}
+
+.price-info {
+    text-align: right;
+}
+
+.price {
+    font-size: 20px;
+    font-weight: 700;
+    margin-bottom: 2px;
+}
+
+.price-jpy {
+    font-size: 16px;
+    font-weight: 600;
+    opacity: 0.8;
+    margin-bottom: 4px;
+}
+
+.change {
+    font-size: 14px;
+    font-weight: 500;
+    padding: 2px 8px;
+    border-radius: 4px;
+}
+
+.change.positive {
+    color: #00ff88;
+    background: rgba(0, 255, 136, 0.1);
+}
+
+.change.negative {
+    color: #ff4757;
+    background: rgba(255, 71, 87, 0.1);
+}
+
+.footer {
+    text-align: center;
+    margin-top: 20px;
+}
+
+.refresh-button {
+    background: rgba(255, 255, 255, 0.2);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    color: white;
+    padding: 10px 20px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 500;
+    transition: all 0.2s ease;
+}
+
+.refresh-button:hover {
+    background: rgba(255, 255, 255, 0.3);
+    transform: translateY(-1px);
+}
+
+.refresh-button:active {
+    transform: translateY(0);
+}
+
+.loading {
+    opacity: 0.6;
+    pointer-events: none;
+}
+
+.error {
+    color: #ff4757;
+    text-align: center;
+    font-size: 14px;
+    margin-top: 10px;
+}
+
+.gas-info {
+    margin-top: 12px;
+    padding-top: 12px;
+    border-top: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.gas-label {
+    font-size: 12px;
+    opacity: 0.8;
+    margin-bottom: 6px;
+}
+
+.gas-prices {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.gas-price {
+    font-size: 11px;
+    opacity: 0.9;
+    display: flex;
+    justify-content: space-between;
+}

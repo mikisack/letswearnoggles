@@ -1,0 +1,18 @@
+{
+  "manifest_version": 3,
+  "name": "ETH & BTC Price Tracker",
+  "version": "1.0",
+  "description": "リアルタイムでETHとBTCの価格を表示するChrome拡張機能",
+  "permissions": [
+    "activeTab"
+  ],
+  "host_permissions": [
+    "https://api.coingecko.com/*",
+    "https://api.etherscan.io/*",
+    "https://mempool.space/*"
+  ],
+  "action": {
+    "default_popup": "popup.html",
+    "default_title": "ETH & BTC Price Tracker"
+  }
+}

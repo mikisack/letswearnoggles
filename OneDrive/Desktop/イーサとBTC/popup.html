@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ETH & BTC Price Tracker</title>
+    <link rel="stylesheet" href="popup.css">
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>仮想通貨価格</h1>
+            <div class="refresh-time" id="refreshTime">更新中...</div>
+        </div>
+        
+        <div class="price-card">
+            <div class="coin-info">
+                <div class="coin-name">
+                    <img src="https://assets.coingecko.com/coins/images/279/small/ethereum.png" alt="ETH" class="coin-icon">
+                    <span>Ethereum (ETH)</span>
+                </div>
+                <div class="price-info">
+                    <div class="price" id="eth-price">$0.00</div>
+                    <div class="price-jpy" id="eth-price-jpy">¥0</div>
+                    <div class="change" id="eth-change">0.00%</div>
+                </div>
+            </div>
+            <div class="gas-info">
+                <div class="gas-label">ガス代:</div>
+                <div class="gas-prices">
+                    <span class="gas-price" id="eth-gas-slow">遅い: - gwei</span>
+                    <span class="gas-price" id="eth-gas-standard">標準: - gwei</span>
+                    <span class="gas-price" id="eth-gas-fast">高速: - gwei</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="price-card">
+            <div class="coin-info">
+                <div class="coin-name">
+                    <img src="https://assets.coingecko.com/coins/images/1/small/bitcoin.png" alt="BTC" class="coin-icon">
+                    <span>Bitcoin (BTC)</span>
+                </div>
+                <div class="price-info">
+                    <div class="price" id="btc-price">$0.00</div>
+                    <div class="price-jpy" id="btc-price-jpy">¥0</div>
+                    <div class="change" id="btc-change">0.00%</div>
+                </div>
+            </div>
+            <div class="gas-info">
+                <div class="gas-label">手数料:</div>
+                <div class="gas-prices">
+                    <span class="gas-price" id="btc-fee-slow">遅い: - sat/vB</span>
+                    <span class="gas-price" id="btc-fee-standard">標準: - sat/vB</span>
+                    <span class="gas-price" id="btc-fee-fast">高速: - sat/vB</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="footer">
+            <button id="refreshBtn" class="refresh-button">更新</button>
+        </div>
+    </div>
+    
+    <script src="popup.js"></script>
+</body>
+</html>

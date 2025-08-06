@@ -1,0 +1,11 @@
+{
+  "manifest_version": 3,
+  "name": "秒針付き時計",
+  "version": "1.0",
+  "description": "秒針の付いたアナログ時計を表示するChrome拡張機能",
+  "action": {
+    "default_popup": "popup.html",
+    "default_title": "秒針付き時計"
+  },
+  "permissions": []
+}
